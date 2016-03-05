@@ -1,9 +1,10 @@
-package com.sachingupta.android_googleplacesandmaps;
+package com.sachingupta.android_smarttodolist.googleplaces;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.sachingupta.android_smarttodolist.utilities.HttpFetcher;
 
 public class PlacesFetcher extends AsyncTask<Object, Integer, String> {
     String googlePlacesData = null;

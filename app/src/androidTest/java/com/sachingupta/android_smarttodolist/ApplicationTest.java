@@ -1,4 +1,4 @@
-package com.sachingupta.android_googleplacesandmaps;
+package com.sachingupta.android_smarttodolist;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

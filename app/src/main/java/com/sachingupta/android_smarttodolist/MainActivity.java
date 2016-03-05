@@ -1,4 +1,4 @@
-package com.sachingupta.android_googleplacesandmaps;
+package com.sachingupta.android_smarttodolist;
 
 import android.Manifest;
 import android.content.Context;
@@ -24,6 +24,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import com.sachingupta.android_smarttodolist.googleplaces.PlacesFetcher;
 
 public class MainActivity extends AppCompatActivity {
     private static final String GOOGLE_API_KEY = "AIzaSyB0C_QumzcRr_THsYMgwvK21VRj2tfehRM";

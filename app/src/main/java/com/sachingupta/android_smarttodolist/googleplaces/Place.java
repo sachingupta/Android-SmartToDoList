@@ -1,4 +1,4 @@
-package com.sachingupta.android_googleplacesandmaps;
+package com.sachingupta.android_smarttodolist.googleplaces;
 
 
 import com.google.android.gms.maps.model.LatLng;
