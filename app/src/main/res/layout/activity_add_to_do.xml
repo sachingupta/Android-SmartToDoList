@@ -18,10 +18,20 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:id="@+id/toDoTitle"
+        android:id="@+id/toDoCategory"
         android:background="@color/inputBackground"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/toDoActivityTitle"
+        android:padding="@dimen/input_padding"
+        android:hint="Category" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/toDoTitle"
+        android:background="@color/inputBackground"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/toDoCategory"
         android:padding="@dimen/input_padding"
         android:hint="Title" />
 

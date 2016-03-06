@@ -34,6 +34,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.sachingupta.android_smarttodolist.ToDo.ToDo;
 import com.sachingupta.android_smarttodolist.googleplaces.PlacesFetcher;
 import com.sachingupta.android_smarttodolist.utilities.GeocoderHelper;
 
@@ -85,7 +86,8 @@ public class MainActivity extends AppCompatActivity
         addToDo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, AddToDoActivity.class);
+                Intent intent = new Intent(context, AddToDoCategorySelectionActivity.class);
+                intent.putExtra("toDoObject", new ToDo());
                 startActivity(intent);
             }
         });
@@ -229,10 +231,11 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_my_list) {
-            Intent intent = new Intent(this, MyListActivity.class);
+            Intent intent = new Intent(context, MyListActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_add_to_do) {
-            Intent intent = new Intent(this, AddToDoActivity.class);
+            Intent intent = new Intent(context, AddToDoCategorySelectionActivity.class);
+            intent.putExtra("toDoObject", new ToDo());
             startActivity(intent);
         } else if (id == R.id.nav_share) {
 

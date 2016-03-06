@@ -79,7 +79,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursor != null)
             cursor.moveToFirst();
 
-        ToDo toDo = new ToDo(id, cursor.getString(0), cursor.getString(1), cursor.getString(3), cursor.getString(4));
+        ToDo toDo = new ToDo(Integer.parseInt(cursor.getString(0)), cursor.getString(1),cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
         // return todo
         return toDo;
     }
@@ -96,7 +96,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 DateFormat format = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
-                ToDo toDo = new ToDo(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(4), cursor.getString(5));
+                ToDo toDo = new ToDo(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
 
                 toDoList.add(toDo);
             } while (cursor.moveToNext());

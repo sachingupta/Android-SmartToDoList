@@ -21,10 +21,22 @@ public class ToDo implements Serializable {
 
     public ToDoStatus Status;
 
-    public ToDo(int id, String title, String description, String startTime, String endTime){
+    public ToDo(){
+        Title = "";
+        Description = "";
+        this.Category = "";
+        StartTime = "";
+        EndTime = "";
+        this.SubCategory = "";
+        this.Location = "";
+        this.Status = ToDoStatus.PENDING;
+    }
+
+    public ToDo(int id, String title, String description, String category, String startTime, String endTime){
         this.Id = id;
         Title = title;
         Description = description;
+        this.Category = category;
         StartTime = startTime;
         EndTime = endTime;
         this.SubCategory = "";

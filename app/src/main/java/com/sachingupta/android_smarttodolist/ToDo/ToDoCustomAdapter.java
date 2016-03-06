@@ -58,10 +58,12 @@ public class ToDoCustomAdapter extends BaseAdapter {
         View rowView = inflater.inflate(R.layout.list_item_to_do, null);
         holder.titleView = (TextView) rowView.findViewById(R.id.toDoTitle);
         holder.descriptionView = (TextView) rowView.findViewById(R.id.toDoDescription);
+        holder.categoryView = (TextView) rowView.findViewById(R.id.toDoCategory);
         holder.startTimeView = (TextView) rowView.findViewById(R.id.toDoStartTime);
         holder.endTimeView = (TextView) rowView.findViewById(R.id.toDoEndTime);
         holder.titleView.setText(currentToDo.Title);
         holder.descriptionView.setText(currentToDo.Description);
+        holder.categoryView.setText(currentToDo.Category);
         holder.startTimeView.setText(currentToDo.StartTime.toString());
         holder.endTimeView.setText(currentToDo.EndTime.toString());
         rowView.setOnClickListener(new View.OnClickListener() {

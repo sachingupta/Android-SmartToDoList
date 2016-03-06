@@ -17,8 +17,14 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/toDoStartTime"
+        android:id="@+id/toDoCategory"
         android:layout_below="@+id/toDoDescription"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toDoStartTime"
+        android:layout_below="@+id/toDoCategory"
         />
 
     <TextView
