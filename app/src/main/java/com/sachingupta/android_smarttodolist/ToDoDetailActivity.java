@@ -1,5 +1,6 @@
 package com.sachingupta.android_smarttodolist;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.sachingupta.android_smarttodolist.DB.DatabaseHandler;
 import com.sachingupta.android_smarttodolist.ToDo.ToDo;
 
 public class ToDoDetailActivity extends AppCompatActivity {
@@ -18,12 +20,15 @@ public class ToDoDetailActivity extends AppCompatActivity {
     EditText endTimeET;
     Button toDoDetailEditBtn;
     Button toDoDetailSaveBtn;
+    Context context;
+    ToDo toDo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_to_do_detail);
+        context = this;
         Intent intent = getIntent();
-        ToDo toDo = (ToDo)intent.getSerializableExtra("toDoObject");
+        final ToDo toDo = (ToDo)intent.getSerializableExtra("toDoObject");
         titleET = (EditText) findViewById(R.id.toDoDetailTitle);
         descriptionET = (EditText) findViewById(R.id.toDoDetailDescription);
         startTimeET = (EditText) findViewById(R.id.toDoDetailStartTime);
@@ -31,6 +36,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
         initialize(toDo);
         toDoDetailEditBtn = (Button) findViewById(R.id.toDoDetailEditBtn);
         toDoDetailSaveBtn = (Button) findViewById(R.id.toDoDetailSaveBtn);
+        final DatabaseHandler db = new DatabaseHandler(context);
         toDoDetailEditBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,7 +49,8 @@ public class ToDoDetailActivity extends AppCompatActivity {
         toDoDetailSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                toDo.update(titleET.getText().toString(), descriptionET.getText().toString(), startTimeET.getText().toString(), endTimeET.getText().toString());
+                db.updateToDo(toDo);
                 Toast.makeText(getApplicationContext(), "Update successful", Toast.LENGTH_LONG).show();
                 finish();
 

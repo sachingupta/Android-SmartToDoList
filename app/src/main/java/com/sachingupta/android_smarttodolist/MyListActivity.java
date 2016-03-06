@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import com.sachingupta.android_smarttodolist.DB.DatabaseHandler;
 import com.sachingupta.android_smarttodolist.ToDo.ToDo;
 import com.sachingupta.android_smarttodolist.ToDo.ToDoCustomAdapter;
 
@@ -17,6 +18,7 @@ public class MyListActivity extends AppCompatActivity {
     Context context;
 
     ArrayList<ToDo> myToDOList;
+    DatabaseHandler db;
 
 
     @Override
@@ -24,17 +26,27 @@ public class MyListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_list);
         context = this;
+        db = new DatabaseHandler(context);
         initializeToDoList();
+
+        this.myToDOList = db.getAllToDo();
         myToDoListView = (ListView) findViewById(R.id.toDoListView);
         myToDoListView.setAdapter(new ToDoCustomAdapter(this, myToDOList));
 
     }
 
-    private void initializeToDoList(){
-        this.myToDOList = new ArrayList<ToDo>();
+    private void initializeToDoList() {
+        db.addToDo(new ToDo(1, "T1", "D1", new Date(), new Date()));
+        db.addToDo(new ToDo(2, "T2", "D2", new Date(), new Date()));
+        db.addToDo(new ToDo(3, "T3", "D3", new Date(), new Date()));
 
-        this.myToDOList.add(new ToDo("T1", "D1", new Date(), new Date()));
-        this.myToDOList.add(new ToDo("T2", "D2", new Date(), new Date()));
-        this.myToDOList.add(new ToDo("T3", "D3", new Date(), new Date()));
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+        this.myToDOList = db.getAllToDo();
+        myToDoListView.setAdapter(new ToDoCustomAdapter(this, myToDOList));
     }
 }
