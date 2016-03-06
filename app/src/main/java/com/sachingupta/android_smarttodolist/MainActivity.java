@@ -4,6 +4,9 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -32,6 +35,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sachingupta.android_smarttodolist.googleplaces.PlacesFetcher;
+import com.sachingupta.android_smarttodolist.utilities.GeocoderHelper;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -47,6 +51,8 @@ public class MainActivity extends AppCompatActivity
     double latitude;
     double longitude;
     final int PROXIMITY_RADIUS = 5000;
+    TextView locationDetailTV;
+    GeocoderHelper geocoderHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,14 +60,16 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        context= this;
+        context = this;
+        geocoderHelper = new GeocoderHelper();
+        locationDetailTV =(TextView) findViewById(R.id.latlongLocation);
         navigationDrawerSetup();
         floatingActionButtonSetup();
         currentLocationAndMapSetup();
         searchSetup();
     }
 
-    private void navigationDrawerSetup(){
+    private void navigationDrawerSetup() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -72,7 +80,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    private void floatingActionButtonSetup(){
+    private void floatingActionButtonSetup() {
         FloatingActionButton addToDo = (FloatingActionButton) findViewById(R.id.addFloatingBtn);
         addToDo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,12 +91,27 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    private void currentLocationAndMapSetup(){
-        // TODO get current location
+    private void currentLocationAndMapSetup() {
         latitude = 42.93708;
         longitude = -75.6107;
-        mLocationText = (TextView) findViewById((R.id.latlongLocation));
-        mLocationText.setText("New York");
+        // TODO get current location
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if(location != null) {
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+        }
+        locationDetailTV.setText(geocoderHelper.getCity(context, latitude, longitude));
         mapSetup();
     }
 
@@ -136,7 +159,9 @@ public class MainActivity extends AppCompatActivity
     private void searchGooglePlaces(){
         String type = searchQueryET.getText().toString();
         StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
-        googlePlacesUrl.append("location=" + latitude + "," + longitude);
+        LatLng mapCenterLocation = mMap.getCameraPosition().target;
+        locationDetailTV.setText(geocoderHelper.getCity(context, mapCenterLocation.latitude, mapCenterLocation.longitude));
+        googlePlacesUrl.append("location=" + mapCenterLocation.latitude + "," + mapCenterLocation.longitude);
         googlePlacesUrl.append("&radius=" + PROXIMITY_RADIUS);
         googlePlacesUrl.append("&type=" + type);
         googlePlacesUrl.append("&sensor=true");
