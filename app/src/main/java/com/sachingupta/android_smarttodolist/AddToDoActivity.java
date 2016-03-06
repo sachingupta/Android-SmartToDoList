@@ -18,7 +18,8 @@ public class AddToDoActivity extends AppCompatActivity {
     EditText startTimeET;
     EditText endTimeET;
     Button addToDoSubmitBtn;
-    Context  context;
+    Context context;
+    DatabaseHandler databaseHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,18 +30,16 @@ public class AddToDoActivity extends AppCompatActivity {
         descriptionET = (EditText) findViewById(R.id.toDoDescription);
         startTimeET = (EditText) findViewById(R.id.toDoStartTime);
         endTimeET = (EditText) findViewById(R.id.toDoEndTime);
-        final DatabaseHandler db = new DatabaseHandler(context);
+        databaseHandler = new DatabaseHandler(context);
         addToDoSubmitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int toDoId = db.nextId();
+                int toDoId = databaseHandler.nextId();
                 ToDo toDo = new ToDo(toDoId, titleET.getText().toString(), descriptionET.getText().toString(), startTimeET.getText().toString(), endTimeET.getText().toString());
-                db.addToDo(toDo);
+                databaseHandler.addToDo(toDo);
                 Toast.makeText(getApplicationContext(), "Submit successful", Toast.LENGTH_LONG).show();
                 finish();
-
             }
         });
-
     }
 }

@@ -10,43 +10,31 @@ import com.sachingupta.android_smarttodolist.ToDo.ToDo;
 import com.sachingupta.android_smarttodolist.ToDo.ToDoCustomAdapter;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class MyListActivity extends AppCompatActivity {
-
     ListView myToDoListView;
     Context context;
-
     ArrayList<ToDo> myToDOList;
-    DatabaseHandler db;
-
+    DatabaseHandler databaseHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_list);
         context = this;
-        db = new DatabaseHandler(context);
-        initializeToDoList();
-
-        this.myToDOList = db.getAllToDo();
+        databaseHandler = new DatabaseHandler(context);
         myToDoListView = (ListView) findViewById(R.id.toDoListView);
-        myToDoListView.setAdapter(new ToDoCustomAdapter(this, myToDOList));
-
+        populateToDoListFromDB();
     }
 
-    private void initializeToDoList() {
-        db.addToDo(new ToDo(1, "T1", "D1", new Date(), new Date()));
-        db.addToDo(new ToDo(2, "T2", "D2", new Date(), new Date()));
-        db.addToDo(new ToDo(3, "T3", "D3", new Date(), new Date()));
-
-
+    private void populateToDoListFromDB(){
+        this.myToDOList = databaseHandler.getAllToDo();
+        myToDoListView.setAdapter(new ToDoCustomAdapter(this, myToDOList));
     }
 
     @Override
     public void onResume() {
         super.onResume();  // Always call the superclass method first
-        this.myToDOList = db.getAllToDo();
-        myToDoListView.setAdapter(new ToDoCustomAdapter(this, myToDOList));
+        populateToDoListFromDB();
     }
 }

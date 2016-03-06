@@ -8,9 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.sachingupta.android_smarttodolist.MyListActivity;
 import com.sachingupta.android_smarttodolist.R;
 import com.sachingupta.android_smarttodolist.ToDoDetailActivity;
 
@@ -50,7 +48,7 @@ public class ToDoCustomAdapter extends BaseAdapter {
         TextView categoryView;
         TextView startTimeView;
         TextView endTimeView;
-        TextView satusView;
+        TextView statusView;
     }
 
     @Override
@@ -69,7 +67,6 @@ public class ToDoCustomAdapter extends BaseAdapter {
         rowView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "You clicked on position " + position, Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(context, ToDoDetailActivity.class);
                 intent.putExtra("toDoObject", currentToDo);
                 context.startActivity(intent);

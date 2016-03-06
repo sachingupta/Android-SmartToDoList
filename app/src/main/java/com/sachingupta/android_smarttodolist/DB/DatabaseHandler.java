@@ -8,12 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.sachingupta.android_smarttodolist.ToDo.ToDo;
 
-import java.sql.Date;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
@@ -27,7 +24,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Contacts table name
     private static final String TABLE_TODO = "ToDoTable";
 
-    // Contacts Table Columns names
+    // To_Do Table Columns names
     private static final String KEY_ID = "id";
     private static final String KEY_TITLE = "title";
     private static final String KEY_DESCRIPTION = "description";
@@ -83,7 +80,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             cursor.moveToFirst();
 
         ToDo toDo = new ToDo(id, cursor.getString(0), cursor.getString(1), cursor.getString(3), cursor.getString(4));
-        // return contact
+        // return todo
         return toDo;
     }
 
@@ -105,7 +102,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
-        // return contact list
+        // return todo list
         return toDoList;
     }
 

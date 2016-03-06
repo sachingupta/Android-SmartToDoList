@@ -13,7 +13,6 @@ import com.sachingupta.android_smarttodolist.DB.DatabaseHandler;
 import com.sachingupta.android_smarttodolist.ToDo.ToDo;
 
 public class ToDoDetailActivity extends AppCompatActivity {
-
     EditText titleET;
     EditText descriptionET;
     EditText startTimeET;
@@ -22,6 +21,8 @@ public class ToDoDetailActivity extends AppCompatActivity {
     Button toDoDetailSaveBtn;
     Context context;
     ToDo toDo;
+    DatabaseHandler databaseHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +37,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
         initialize(toDo);
         toDoDetailEditBtn = (Button) findViewById(R.id.toDoDetailEditBtn);
         toDoDetailSaveBtn = (Button) findViewById(R.id.toDoDetailSaveBtn);
-        final DatabaseHandler db = new DatabaseHandler(context);
+        databaseHandler = new DatabaseHandler(context);
         toDoDetailEditBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,7 +51,7 @@ public class ToDoDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 toDo.update(titleET.getText().toString(), descriptionET.getText().toString(), startTimeET.getText().toString(), endTimeET.getText().toString());
-                db.updateToDo(toDo);
+                databaseHandler.updateToDo(toDo);
                 Toast.makeText(getApplicationContext(), "Update successful", Toast.LENGTH_LONG).show();
                 finish();
 

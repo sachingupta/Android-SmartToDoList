@@ -31,42 +31,37 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.sachingupta.android_smarttodolist.DB.DatabaseHandler;
-import com.sachingupta.android_smarttodolist.ToDo.ToDo;
 import com.sachingupta.android_smarttodolist.googleplaces.PlacesFetcher;
-
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String GOOGLE_API_KEY = "AIzaSyDUM3FztSW84l5R7tHlsRVqEp4BVcxc_qg";
     GoogleMap mMap;
-    EditText placeText;
-    double latitude = 42.93708;
-    double longitude = -75.6107;
-    private int PROXIMITY_RADIUS = 5000;
+    EditText searchQueryET;
+
     protected TextView mLocationText;
     Context context;
+    Toolbar toolbar;
+
+    double latitude;
+    double longitude;
+    final int PROXIMITY_RADIUS = 5000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        context= this;
+        navigationDrawerSetup();
+        floatingActionButtonSetup();
+        currentLocationAndMapSetup();
+        searchSetup();
+    }
 
-        FloatingActionButton myLocationIcon = (FloatingActionButton) findViewById(R.id.addFloatingBtn);
-        myLocationIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, MyListActivity.class);
-                startActivity(intent);
-            }
-        });
-
+    private void navigationDrawerSetup(){
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -75,23 +70,29 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        context= this;
+    }
 
-        mLocationText = (TextView) findViewById((R.id.latlongLocation));
-        mLocationText.setText("New York");
-
-        placeText = (EditText) findViewById(R.id.placeText);
-        Button btnFind = (Button) findViewById(R.id.btnFind);
-
-        btnFind.setOnClickListener(new View.OnClickListener() {
+    private void floatingActionButtonSetup(){
+        FloatingActionButton addToDo = (FloatingActionButton) findViewById(R.id.addFloatingBtn);
+        addToDo.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
-                Toast.makeText(getApplicationContext(), "finding 2", Toast.LENGTH_LONG).show();
-                searchGooglePlaces();
+            public void onClick(View view) {
+                Intent intent = new Intent(context, AddToDoActivity.class);
+                startActivity(intent);
             }
         });
+    }
 
+    private void currentLocationAndMapSetup(){
+        // TODO get current location
+        latitude = 42.93708;
+        longitude = -75.6107;
+        mLocationText = (TextView) findViewById((R.id.latlongLocation));
+        mLocationText.setText("New York");
+        mapSetup();
+    }
+
+    private void mapSetup(){
         SupportMapFragment supportMapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.googleMap);
 
@@ -117,11 +118,23 @@ public class MainActivity extends AppCompatActivity
                 mMap.animateCamera(CameraUpdateFactory.zoomTo(12));
             }
         });
+    }
 
+    private void searchSetup(){
+        searchQueryET = (EditText) findViewById(R.id.placeText);
+        Button btnFind = (Button) findViewById(R.id.btnFind);
+
+        btnFind.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "finding 2", Toast.LENGTH_LONG).show();
+                searchGooglePlaces();
+            }
+        });
     }
 
     private void searchGooglePlaces(){
-        String type = placeText.getText().toString();
+        String type = searchQueryET.getText().toString();
         StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
         googlePlacesUrl.append("location=" + latitude + "," + longitude);
         googlePlacesUrl.append("&radius=" + PROXIMITY_RADIUS);
