@@ -22,6 +22,7 @@ public class ToDo implements Serializable {
     public ToDoStatus Status;
 
     public ToDo(){
+        this.Id = -1;
         Title = "";
         Description = "";
         this.Category = "";

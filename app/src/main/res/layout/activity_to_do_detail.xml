@@ -36,7 +36,7 @@
             android:hint="toDoDescription" />
 
         <EditText
-            android:layout_width="match_parent"
+            android:layout_width="290dp"
             android:layout_height="40dp"
             android:id="@+id/toDoDetailStartTime"
             android:background="@color/inputBackground"
@@ -44,8 +44,16 @@
             android:layout_marginTop="10dp"
             android:layout_below="@+id/toDoDetailDescription"
             android:hint="toDoStartTime" />
+    <ImageView
+        android:id="@+id/toDoStartDatePicker"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/calender"
+        android:layout_alignTop="@+id/toDoDetailStartTime"
+        android:layout_toRightOf="@+id/toDoDetailStartTime"
+        android:layout_toEndOf="@+id/toDoDetailStartTime" />
         <EditText
-            android:layout_width="match_parent"
+            android:layout_width="290dp"
             android:layout_height="40dp"
             android:id="@+id/toDoDetailEndTime"
             android:layout_marginTop="10dp"
@@ -53,6 +61,14 @@
             android:background="@color/inputBackground"
             android:padding="@dimen/input_padding"
             android:hint="toDoEndTime" />
+    <ImageView
+        android:id="@+id/toDoEndDatePicker"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/calender"
+        android:layout_alignTop="@+id/toDoDetailEndTime"
+        android:layout_toRightOf="@+id/toDoDetailEndTime"
+        android:layout_toEndOf="@+id/toDoDetailEndTime" />
         <Button
     android:id="@+id/toDoDetailEditBtn"
     android:layout_width="wrap_content"
